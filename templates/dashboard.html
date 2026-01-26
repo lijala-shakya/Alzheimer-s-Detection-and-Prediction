@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroPredict - Alzheimer's Awareness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Color Variables */
+        :root {
+            --primary-purple: #7f52f5; 
+            --secondary-purple: #9d7df9;
+            --text-dark: #333;
+            --text-light: #6c757d;
+            --border-light: #e6e6e6;
+            --bg-page: #f4f7f9;
+            --bg-white: #fff;
+            --bg-warning: #fff3e0;
+            --icon-blue: #3b82f6;
+            --icon-pink: #f06292;
+            --icon-orange: #ff7043;
+            --icon-green: #28a745;
+            --gradient-1-start: #3B82F6; /* Blue */
+            --gradient-1-end: #8B2CF5;  /* Purple */
+            --gradient-2-start: #48c6ef; /* Greenish Blue */
+            --gradient-2-end: #6f86d6;  /* Sky Blue */
+        }
+        
+        /* General Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            /* Smooth scrolling for anchor links */
+            scroll-behavior: smooth; 
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --------------------
+            Top Bar (Header Navigation) 
+        -------------------- */
+        .top-bar {
+            width: 100%;
+            padding: 20px 40px; 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            background-color: var(--bg-white);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            /* Ensure the header doesn't cover content when jumping to anchors */
+            position: sticky; 
+            top: 0;
+            z-index: 100;
+        }
+        
+        /* Logo/Brand Area (Left Side) - NO CHANGES */
+        .logo-link {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(to right, #cb91fa5e, #605eeb); 
+            border-radius: 8px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-white);
+            font-weight: bold;
+            font-size: 40px;
+            line-height: 1;
+            margin-right: 10px;
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-title {
+            font-size: 1.9rem; 
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .logo-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.2;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            background: linear-gradient(to right, var(--gradient-1-start), var(--gradient-1-end));
+            color: var(--bg-white);
+            box-shadow: 0 4px 10px rgba(127, 82, 245, 0.3);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 15px rgba(127, 82, 245, 0.4);
+            transform: translateY(-1px);
+        }
+
+
+        .btn-last {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 2rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            background: linear-gradient(to right, var(--gradient-1-start), var(--gradient-1-end));
+            color: var(--bg-white);
+            
+            box-shadow: 0 4px 10px rgba(127, 82, 245, 0.3);
+        }
+        
+        .btn-last:hover {
+            box-shadow: 0 6px 15px rgba(127, 82, 245, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* --------------------
+            Main Content Layout 
+        -------------------- */
+        .page-container { 
+            padding: 20px 40px 80px 40px; 
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --------------------
+            Hero Banner - NO CHANGES
+        -------------------- */
+        .hero-banner {
+            background: linear-gradient(to right, var(--gradient-1-start), var(--gradient-1-end));
+            color: var(--bg-white);
+            padding: 60px 50px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 20px rgba(127, 82, 245, 0.3);
+        }
+
+        .hero-banner h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-banner .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--bg-white);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .hero-banner .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .important-notice {
+            background-color: var(--bg-warning);
+            border-radius: 8px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+        }
+
+        .important-notice .icon {
+            color: #ff9800;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* --------------------
+            Information Cards Grid
+        -------------------- */
+        .info-section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+        }
+        
+        .info-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        /* Card Anchor Link Styling */
+        .info-card a {
+            display: block; /* Make the whole card area clickable */
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .info-card {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            padding: 30px 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-top: 5px solid transparent; 
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--bg-white);
+        }
+
+        /* Card Icon Backgrounds - NO CHANGES */
+        .info-card:nth-child(1) .info-card-icon { /* Understanding Alzheimer's */
+            background: linear-gradient(45deg, #6a5ae0, #a993ff); 
+        }
+        .info-card:nth-child(2) .info-card-icon { /* Early Warning Signs */
+            background: linear-gradient(45deg, #e91e63, #ff69b4); 
+        }
+        .info-card:nth-child(3) .info-card-icon { /* Prevention Tips */
+            background: linear-gradient(45deg, #ff9800, #ffc107); 
+        }
+        .info-card:nth-child(4) .info-card-icon { /* Caregiving Resources - This one doesn't have a direct section, so keep as a general link */
+            background: linear-gradient(45deg, #4CAF50, #8bc34a); 
+        }
+
+        .info-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        /* --------------------
+            Main Content Grid (Warning Signs & Key Facts)
+        -------------------- */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
+        .warning-signs-list h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sign-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        /* Sidebar/Key Facts */
+        .sidebar-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .key-facts {
+            background: linear-gradient(to bottom right, var(--gradient-1-start), var(--gradient-1-end));
+            color: var(--bg-white);
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .key-facts .fact-item {
+            margin-bottom: 15px; 
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border for dark background */
+        }
+
+        /* Prevention Tips Box (Green) */
+        .prevention-tips-box {
+            background-color: #e8f5e9; 
+            color: var(--text-dark);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--icon-green);
+        }
+
+        .prevention-tips-box h3 {
+            color: var(--icon-green);
+        }
+
+        /* Professional Help Box - NO CHANGES */
+        .professional-help {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+        
+        /* --------------------
+            FAQ Section (Restored Styles)
+        -------------------- */
+        .faq-section {
+            margin-top: 50px;
+            padding: 40px 0;
+        }
+
+        .faq-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .faq-item {
+            background-color: var(--bg-white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Key card shadow */
+        }
+
+        .faq-item h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .faq-item p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+        
+        /* --------------------
+            Final CTA Banner - NO CHANGES
+        -------------------- */
+        .final-cta-banner {
+            background: linear-gradient(to right, #3B82F6, #8B2CF5);
+            color: var(--bg-white);
+            text-align: center;
+            padding: 30px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 50px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .final-cta-banner:hover {
+            opacity: 0.9;
+        }
+
+        /* --------------------
+            Responsiveness - NO CHANGES
+        -------------------- */
+        @media (max-width: 1024px) {
+            .info-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar-panel {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 15px 20px;
+            }
+            .page-container {
+                padding: 15px 20px 40px 20px;
+            }
+            .hero-banner {
+                padding: 40px 30px;
+            }
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+            .info-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="#" class="logo-link">
+            <div class="logo-icon">🧠</div>
+            <div class="logo-text">
+                <h2 class="logo-title">NeuroPredict</h2>
+                <span class="logo-subtitle">Alzheimer’s Detection</span>
+            </div>
+        </a>
+        
+        <a href="assess1.html" class="btn btn-primary" onclick="localStorage.removeItem('neuro_assessment_data')">
+            Start New Assessment
+        </a>
+    </div>
+
+    <div class="page-container">
+        
+        <div class="hero-banner">
+            <h1>Alzheimer's Awareness & Self-Assessment</h1>
+            <p>Learn about early detection and take a quick self-assessment to understand your risk factors</p>
+            <a href="assess1.html" class="btn btn-secondary" onclick="localStorage.removeItem('neuro_assessment_data')">
+                Start New Assessment
+            </a>
+        </div>
+        
+        <div class="important-notice">
+            <i class="fas fa-exclamation-triangle icon"></i>
+            <p><strong>Important Notice:</strong> This self-assessment is for educational purposes only and does not replace professional medical advice, diagnosis, or treatment. If you have concerns about memory loss or cognitive changes, please consult with a healthcare provider.</p>
+        </div>
+
+        <h2 class="info-section-title">Learn About Alzheimer's</h2>
+        
+        <div class="info-cards-grid">
+            <a href="#understanding-alzheimers" class="info-card">
+                <div class="info-card-icon"><i class="fas fa-brain"></i></div>
+                <h3>Understanding Alzheimer's</h3>
+                <p>Learn about the disease, its stages, and progression</p>
+            </a>
+            
+            <a href="#early-warning-signs" class="info-card">
+                <div class="info-card-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Early Warning Signs</h3>
+                <p>Recognize the 10 early signs and symptoms</p>
+            </a>
+            
+            <a href="#prevention-tips" class="info-card">
+                <div class="info-card-icon"><i class="fas fa-heartbeat"></i></div>
+                <h3>Prevention Tips</h3>
+                <p>Lifestyle changes that may reduce risk</p>
+            </a>
+            
+            <a href="#professional-help" class="info-card">
+                <div class="info-card-icon"><i class="fas fa-book-open"></i></div>
+                <h3>Caregiving Resources</h3>
+                <p>Practical advice for family and caregivers</p>
+            </a>
+        </div>
+        
+        <div class="content-grid">
+            
+            <div class="warning-signs-list">
+                
+                <h2 id="early-warning-signs"><i class="fas fa-chart-line"></i> 10 Early Warning Signs</h2>
+                <p>Recognizing these signs early can lead to better outcomes through early intervention and treatment.</p>
+                
+                <div class="sign-item">
+                    <div class="sign-number">1. </div>
+                    <div class="sign-text">Memory loss that disrupts daily life</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">2. </div>
+                    <div class="sign-text">Challenges in planning or solving problems</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">3. </div>
+                    <div class="sign-text">Difficulty completing familiar tasks</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">4. </div>
+                    <div class="sign-text">Confusion with time or place</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">5. </div>
+                    <div class="sign-text">Trouble understanding visual images</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">6. </div>
+                    <div class="sign-text">New problems with words in speaking or writing</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">7. </div>
+                    <div class="sign-text">Misplacing things and losing ability to retrace steps</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">8. </div>
+                    <div class="sign-text">Decreased or poor judgment</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">9. </div>
+                    <div class="sign-text">Withdrawal from work or social activities</div>
+                </div>
+                <div class="sign-item">
+                    <div class="sign-number">10. </div>
+                    <div class="sign-text">Changes in mood and personality</div>
+                </div>
+                
+                <h2 id="understanding-alzheimers" style="margin-top: 30px;"><i class="fas fa-brain"></i> Understanding Alzheimer's</h2>
+                <p>Alzheimer's disease is a progressive neurological disorder that causes the brain to shrink (atrophy) and brain cells to die. It is the most common cause of dementia. </p>
+                <div class="info-cards-grid" style="margin-bottom: 0; grid-template-columns: repeat(2, 1fr);">
+                    <div class="info-card" style="padding: 20px; border-top: 5px solid #6a5ae0; background-color: #f7f7ff;">
+                        <h3 style="color: #6a5ae0;">What Happens?</h3>
+                        <p>The disease is characterized by two key abnormalities: **Amyloid Plaques** (deposits of protein fragments that build up in the spaces between nerve cells) and **Tau Tangles** (twisted fibers of Tau protein that build up inside the nerve cells).</p>
+                    </div>
+                    <div class="info-card" style="padding: 20px; border-top: 5px solid #a993ff; background-color: #f7f7ff;">
+                        <h3 style="color: #a993ff;">Stages of Progression</h3>
+                        <p>Alzheimer's progresses through three main stages: **Mild** (MCI/Early-Stage, where the person maintains independence), **Moderate** (Middle-Stage, requiring significant assistance), and **Severe** (Late-Stage, requiring full-time care).</p>
+                    </div>
+                </div>
+
+
+                <h2 id="prevention-tips-detailed" style="margin-top: 30px;"><i class="fas fa-dumbbell"></i> Caring Resources</h2>
+                <p>Research suggests that a combination of lifestyle factors can help reduce the risk or slow the progression of cognitive decline.</p>
+                
+                <div class="info-cards-grid" style="margin-bottom: 0;">
+                    <div class="info-card" style="padding: 10px; border-left: 5px solid #a8e6cf; background-color: #f7fff7;">
+                        <div class="info-card-icon" style="background: #4CAF50; margin-bottom: 10px;width: 250px;"><i class="fas fa-utensils"></i></div>
+                        <h3 style="color: #4CAF50;">MIND Diet</h3>
+                        <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: var(--text-dark);">
+                            <li><i class="fas fa-leaf" style="color: #4CAF50; margin-right: 5px;"></i> Leafy green vegetables daily</li>
+                            <li><i class="fas fa-seedling" style="color: #4CAF50; margin-right: 5px;"></i> Nuts as healthy snacks</li>
+                            <li><i class="fas fa-fish" style="color: #4CAF50; margin-right: 5px;"></i> Fish rich in omega-3 (weekly)</li>
+                            <li><i class="fas fa-wheat" style="color: #4CAF50; margin-right: 5px;"></i> Whole grains & olive oil</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="padding: 10px; border-left: 5px solid #add8e6; background-color: #f7fdff;">
+                        <div class="info-card-icon" style="background: #3B82F6; margin-bottom: 10px;width: 250px;"><i class="fas fa-moon"></i></div>
+                        <h3 style="color: #3B82F6;">Quality Sleep</h3>
+                        <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: var(--text-dark);">
+                            <li><i class="fas fa-check" style="color: #3B82F6; margin-right: 5px;"></i> Aim for 7-8 hours nightly</li>
+                            <li><i class="fas fa-check" style="color: #3B82F6; margin-right: 5px;"></i> Maintain consistent sleep schedule</li>
+                            <li><i class="fas fa-check" style="color: #3B82F6; margin-right: 5px;"></i> Treat sleep disorders promptly</li>
+                            <li><i class="fas fa-check" style="color: #3B82F6; margin-right: 5px;"></i> Avoid screens before bed</li>
+                        </ul>
+                    </div>
+                    <div class="info-card" style="padding: 10px; border-left: 5px solid #d8bfd8; background-color: #fff7ff;">
+                        <div class="info-card-icon" style="background: #8B2CF5; width: 250px; margin-bottom: 10px;"><i class="fas fa-shield-alt"></i></div>
+                        <h3 style="color: #8B2CF5;">Risk Reduction</h3>
+                        <ul style="list-style: none; padding: 0; font-size: 0.9rem; color: var(--text-dark);">
+                            <li><i class="fas fa-check" style="color: #8B2CF5; margin-right: 5px;"></i> Manage blood pressure/diabetes</li>
+                            <li><i class="fas fa-check" style="color: #8B2CF5; margin-right: 5px;"></i> Avoid smoking & excess alcohol</li>
+                            <li><i class="fas fa-check" style="color: #8B2CF5; margin-right: 5px;"></i> Protect head from injuries</li>
+                            <li><i class="fas fa-check" style="color: #8B2CF5; margin-right: 5px;"></i> Regular health check-ups</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-panel">
+                
+                <div class="key-facts">
+                    <h3><i class="fas fa-key"></i> Key Facts</h3>
+                    <div class="fact-item">
+                        <p>6.7M Americans living with Alzheimer's</p>
+                    </div>
+                    <div class="fact-item">
+                        <p>6th Leading cause of death in the US</p>
+                    </div>
+                    <div class="fact-item">      
+                        <p>2/3 Of patients are women</p>
+                    </div>
+                </div>
+                
+                <div id="prevention-tips" class="prevention-tips-box">
+                    <h3><i class="fas fa-heartbeat"></i> Prevention Tips Overview</h3>
+                    <p>Adopt these simple lifestyle habits proven to support brain health:</p>
+                    <ul>
+                        <li>Stay physically active (aerobic exercise)</li>
+                        <li>Engage in mental stimulation (puzzles, learning)</li>
+                        <li>Maintain social connections</li>
+                        <li>Follow a brain-healthy diet (like the MIND diet)</li>
+                        <li>Manage cardiovascular health (BP, diabetes, cholesterol)</li>
+                        <li>Get quality, consistent sleep</li>
+                        <li>Protect your head from injury</li>
+                        <li>Limit alcohol consumption and avoid smoking</li>
+                    </ul>
+                </div>
+                
+                <div id="professional-help" class="professional-help">
+                    <h4>Need Professional Help?</h4>
+                    <p>If you're experiencing memory problems or have concerns, consult with a healthcare professional immediately. Early diagnosis leads to better intervention options.</p>
+                    <div class="help-item helpline">
+                        24/7 Helpline: <a href="tel:1-800-272-3900">1-800-272-3900</a>
+                    </div>
+                    <div class="help-item resources">
+                        Online Resources: <a href="https://www.alz.org" target="_blank">alz.org</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h4>What's the difference between Alzheimer's and dementia?</h4>
+                <p>Dementia is an umbrella term for symptoms affecting memory and thinking. Alzheimer's is the most common cause of dementia, accounting for 60-80% of cases.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>At what age does Alzheimer's typically start?</h4>
+                <p>Most people with Alzheimer's are 65 or older. However, early-onset Alzheimer's can occur in people in their 40s or 50s, though it's less common.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Is Alzheimer's hereditary?</h4>
+                <p>Having a parent or sibling with Alzheimer's increases risk, but it doesn't mean you'll develop it. Lifestyle factors also play a significant role.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Can Alzheimer's be prevented?</h4>
+                <p>While there's no guaranteed prevention, research suggests healthy lifestyle choices—exercise, diet, mental stimulation, and social engagement—may reduce risk.</p>
+            </div>
+        </div>
+    </div>
+    
+    <a href="assess1.html" class="btn btn-last" onclick="localStorage.removeItem('neuro_assessment_data')">
+        Start New Assessment
+    </a>
+
+</body>
+</html>

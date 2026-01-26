@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroPredict - Assessment Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-purple: #7f52f5; 
+            --text-dark: #333;
+            --text-light: #6c757d;
+            --border-light: #e6e6e6;
+            --bg-page: #f4f7f9;
+            --success-green: #28a745;
+            --danger-red: #dc3545;
+            --warning-orange: #ffc107;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-page); color: var(--text-dark); min-height: 100vh; padding: 40px; }
+
+        .results-panel { 
+            background: white; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            border-radius: 15px; 
+            padding: 40px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+        }
+
+        .report-header { text-align: center; margin-bottom: 30px; }
+        .report-section { border-top: 1px solid var(--border-light); margin-top: 25px; padding-top: 25px; }
+        .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        
+        .data-label { color: var(--text-light); font-weight: 500; font-size: 0.9rem; }
+        .data-value { font-weight: 600; display: block; margin-bottom: 10px; }
+
+        .prediction-box { 
+            background: #f8f9fa; 
+            border-radius: 12px; 
+            padding: 25px; 
+            text-align: center; 
+            margin: 30px 0; 
+            border: 2px solid var(--border-light); 
+        }
+        .prediction-status { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+
+        .btn-area { display: flex; gap: 15px; justify-content: center; margin-top: 30px; }
+        .btn { padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: 600; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: var(--primary-purple); color: white; }
+        .btn-outline { background: #eee; color: var(--text-dark); }
+        
+        #error-msg { color: var(--danger-red); text-align: center; display: none; margin-bottom: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="error-msg">⚠️ No assessment data found. Please complete the assessment steps first.</div>
+
+    <div class="results-panel" id="reportContent">
+        <div class="report-header">
+            <h1 style="color: var(--primary-purple)">Assessment Report</h1>
+            <p>Record ID: <span id="resRecordID">Generating...</span></p>
+        </div>
+
+        <div class="report-section">
+            <h3><i class="fas fa-user"></i> Patient Summary</h3>
+            <div class="report-grid">
+                <div><span class="data-label">Full Name</span><span class="data-value" id="resName">--</span></div>
+                <div><span class="data-label">Age / Gender</span><span class="data-value" id="resAgeGen">--</span></div>
+                <div><span class="data-label">Education</span><span class="data-value" id="resEdu">--</span></div>
+                <div><span class="data-label">Handedness</span><span class="data-value" id="resHand">--</span></div>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h3><i class="fas fa-file-medical-alt"></i> Clinical Indicators</h3>
+            <div class="report-grid">
+                <div><span class="data-label">MMSE Score</span><span class="data-value" id="resMMSE">-- / 30</span></div>
+                <div><span class="data-label">MRI Scan Status</span><span class="data-value" id="resMRI">Uploaded</span></div>
+            </div>
+        </div>
+
+        <div class="prediction-box" id="resCard">
+            <div class="prediction-status" id="resStatus">
+                <i class="fas fa-sync fa-spin"></i> Processing AI Analysis...
+            </div>
+            <p id="resDesc">Comparing cognitive markers against clinical datasets.</p>
+        </div>
+
+        <div class="btn-area">
+                <a href="dashboard.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            <button onclick="downloadPDF()" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Download PDF Report</button>
+        </div>
+    </div>
+
+    <script>
+        function downloadPDF() {
+            const element = document.getElementById('reportContent');
+            const patientName = document.getElementById('resName').innerText || 'Patient';
+            
+            // Hide buttons in the PDF
+            const buttons = document.querySelector('.btn-area');
+            buttons.style.display = 'none';
+
+            const opt = {
+                margin:       0.5,
+                filename:     `NeuroPredict_Report_${patientName}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                buttons.style.display = 'flex'; // Show buttons again after download
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = JSON.parse(localStorage.getItem('neuro_assessment_data') || '{}');
+            
+            // 1. Populate standard labels
+            document.getElementById('resName').innerText = data.patientName || 'N/A';
+            document.getElementById('resMMSE').innerText = `${data.calculated_mmse || 0} / 30`;
+            document.getElementById('resRecordID').innerText = data.db_patient_id ? "DB-" + data.db_patient_id : "NP-TEMP";
+
+            const statusEl = document.getElementById('resStatus');
+            const cardEl = document.getElementById('resCard');
+            const descEl = document.getElementById('resDesc');
+
+            // 2. Map the Prediction to the UI (this will be caught by the PDF download)
+            if (data.ai_prediction) {
+                const result = data.ai_prediction; // Non Demented, Mild Dementia, etc.
+                statusEl.innerHTML = `<i class="fas fa-brain"></i> AI Result: ${result}`;
+                
+                // Style the report based on severity
+                if (result === "Non Demented") {
+                    statusEl.style.color = '#28a745';
+                    cardEl.style.borderColor = '#28a745';
+                    descEl.innerText = "The CNN-SVM-RL pipeline identified no structural markers of dementia.";
+                } else {
+                    statusEl.style.color = '#dc3545';
+                    cardEl.style.borderColor = '#dc3545';
+                    descEl.innerText = `Analysis suggests features consistent with ${result}. Clinical consultation is advised.`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
