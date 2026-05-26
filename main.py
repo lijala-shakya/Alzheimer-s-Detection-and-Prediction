@@ -12,7 +12,7 @@ import asyncio
 
 # 1. SUPABASE CONFIG
 SUPABASE_URL = "https://svzrazwfbojkdshpudck.supabase.co"
-SUPABASE_KEY = "sb_secret_44x_8GhZKRmf0yGnZwDO1g_vyHgs74Q"
+SUPABASE_KEY = 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # 2. FASTAPI INIT
