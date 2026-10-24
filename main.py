@@ -12,14 +12,14 @@ import asyncio
 
 # 1. SUPABASE CONFIG
 SUPABASE_URL = "https://svzrazwfbojkdshpudck.supabase.co"
-SUPABASE_KEY = 
+SUPABASE_KEY = "sb_secret_44x_8GhZKRmf0yGnZwDO1g_vyHgs74Q"
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # 2. FASTAPI INIT
 app = FastAPI(title="NeuroPredict Platform")
 templates = Jinja2Templates(directory="templates")
 
-UPLOAD_DIR = r"E:\OneDrive\Desktop\AD\uploads"
+UPLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 def is_mri_image(file_path: str) -> bool:

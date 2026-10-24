@@ -6,3 +6,8 @@ __pycache__/
 data/
 models/
 
+
+.venv/
+run.log
+run.err
+
