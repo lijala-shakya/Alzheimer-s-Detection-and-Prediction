@@ -125,6 +125,14 @@
             
             // 1. Populate standard labels
             document.getElementById('resName').innerText = data.patientName || 'N/A';
+            document.getElementById('resAgeGen').innerText =
+                `${data.age || 'N/A'} / ${data.gender || 'N/A'}`;
+            document.getElementById('resEdu').innerText =
+                data.educationYears !== undefined && data.educationYears !== ''
+                    ? `${data.educationYears} years`
+                    : 'N/A';
+            document.getElementById('resHand').innerText =
+                data.hand === 'R' ? 'Right' : data.hand === 'L' ? 'Left' : (data.hand || 'N/A');
             document.getElementById('resMMSE').innerText = `${data.calculated_mmse || 0} / 30`;
             document.getElementById('resRecordID').innerText = data.db_patient_id ? "DB-" + data.db_patient_id : "NP-TEMP";
 

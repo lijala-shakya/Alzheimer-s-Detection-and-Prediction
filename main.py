@@ -8,11 +8,14 @@ from fastapi import FastAPI, Request, UploadFile, File, Form, HTTPException
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from supabase import create_client, Client
+from dotenv import load_dotenv
 import asyncio
 
+load_dotenv()
+
 # 1. SUPABASE CONFIG
-SUPABASE_URL = "https://svzrazwfbojkdshpudck.supabase.co"
-SUPABASE_KEY = "sb_secret_44x_8GhZKRmf0yGnZwDO1g_vyHgs74Q"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # 2. FASTAPI INIT

@@ -1,8 +1,12 @@
 from supabase import create_client, Client
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Your existing credentials
-SUPABASE_URL = "https://svzrazwfbojkdshpudck.supabase.co"
-SUPABASE_KEY = "sb_secret_44x_8GhZKRmf0yGnZwDO1g_vyHgs74Q"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 def verify_connection():
     print("--- Starting Connection Check ---")

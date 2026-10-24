@@ -113,14 +113,6 @@ Open http://127.0.0.1:8000
 3. SVM predicts one of: Non Demented, Very mild Dementia, Mild Dementia, Moderate Dementia.
 4. Assessment data and scan are stored in Supabase (`patients` table + `mri-scans` bucket).
 
-## Troubleshooting
-
-- `Error loading ASGI app. Could not import module "main"`: run uvicorn from the
-  project directory with the venv interpreter.
-- Yellow import warnings in editor: select the `.venv` interpreter.
-- Friend/old paths: `UPLOAD_DIR` is now relative to the project folder; remove
-  `__pycache__/` to clear cached paths.
-
 ## GitHub: Clone / Pull
 
 Clone your repo:
